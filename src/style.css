@@ -1,70 +1,113 @@
 :root {
-  --bg-color: white;
-  --text-color: black;
-  --circle-color: #b3d9ff;
-  --obstacle-color: #003366;
+	--bg-color: white;
+	--text-color: black;
+	--circle-color: #b3d9ff;
+	--obstacle-color: #003366;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --bg-color: black;
-    --text-color: white;
-    --obstacle-color: #b3d9ff;
-    --circle-color: #003366;
-  }
+	:root {
+		--bg-color: black;
+		--text-color: white;
+		--obstacle-color: #b3d9ff;
+		--circle-color: #003366;
+	}
 }
 
 body {
-  background: var(--bg-color);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-  font-size: 1.4rem;
-  user-select: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 100vh;
+	margin: 0;
+	font-size: 1.3rem;
+	color: var(--text-color);
+	user-select: none;
+	background: var(--bg-color);
 }
 
 main {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  height: 75vh;
-  gap: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	align-items: center;
+	height: 75vh;
 }
 
 svg {
-  width: 100%;
-  height: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 circle {
-  fill: var(--circle-color);
-  cursor: pointer;
-  transition: fill 0.2s ease;
+	cursor: pointer;
+	fill: var(--circle-color);
+	transition: fill 0.2s ease;
 }
 
 circle.obstacle {
-  fill: var(--obstacle-color);
-  cursor: unset;
+	cursor: unset;
+	fill: var(--obstacle-color);
 }
 
 #left {
-  display: flex;
-  gap: 2rem;
+	display: flex;
+	flex: 1;
+	gap: 2rem;
 }
 
-#left > div {
-  cursor: pointer;
+#right {
+	display: flex;
+	flex: 1;
+	flex-direction: row-reverse;
+	text-align: right;
+}
+
+footer svg {
+	cursor: pointer;
+	transition: 0.05s ease;
+}
+
+footer svg:hover {
+	transform: scale(1.2);
 }
 
 image {
-  pointer-events: none;
+	pointer-events: none;
 }
 
 footer {
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+}
+
+/* noto-sans-sc-latin-wght-normal */
+@font-face {
+	font-family: "Noto Sans SC Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url("@fontsource-variable/noto-sans-sc/files/noto-sans-sc-latin-wght-normal.woff2")
+		format("woff2-variations");
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+		U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212,
+		U+2215, U+FEFF, U+FFFD;
+}
+
+/* noto-sans-sc-chinese-simplified-wght-normal */
+@font-face {
+	font-family: "Noto Sans SC Variable";
+	font-style: normal;
+	font-display: swap;
+	font-weight: 100 900;
+	src: url("@fontsource-variable/noto-sans-sc/files/noto-sans-sc-chinese-simplified-wght-normal.woff2")
+		format("woff2-variations");
+}
+
+:root {
+	--font-sans:
+		Noto Sans SC Variable, ui-sans-serif, system-ui, sans-serif,
+		Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
 }

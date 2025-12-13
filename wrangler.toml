@@ -1,0 +1,9 @@
+name = "catch-the.cat"
+compatibility_date = "2025-12-13"
+workers_dev = false
+
+routes = [{ pattern = "catch-the.cat", custom_domain = true }]
+
+[assets]
+directory = "./dist/"
+not_found_handling = "single-page-application"

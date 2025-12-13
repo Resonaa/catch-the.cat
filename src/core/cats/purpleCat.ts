@@ -1,49 +1,47 @@
 import type { State } from "../state";
-
 import { Cat } from "./cat";
 
 export class PurpleCat extends Cat {
-  name = "紫猫";
-  color = "#800080";
-  lives = 1;
-  shouldModify = false;
-  description = "濒死时消灭全部障碍，仅可触发1次";
-  difficulty = {
-    7: 2,
-    6: 3,
-    5: 4,
-    4: 4,
-    3: 4
-  };
+	name = "purple-cat";
+	color = "#800080";
+	lives = 1;
+	shouldModify = false;
+	difficulty = {
+		3: 4,
+		4: 4,
+		5: 4,
+		6: 3,
+		7: 2
+	};
 
-  reset() {
-    this.lives = 1;
-    this.shouldModify = false;
-  }
+	reset() {
+		this.lives = 1;
+		this.shouldModify = false;
+	}
 
-  checkPlayerWin(state: State) {
-    const won = super.checkPlayerWin(state);
+	checkPlayerWin(state: State) {
+		const won = super.checkPlayerWin(state);
 
-    if (!won) {
-      return false;
-    }
+		if (!won) {
+			return false;
+		}
 
-    if (this.lives > 0) {
-      this.lives--;
-      this.shouldModify = true;
-      return false;
-    }
+		if (this.lives > 0) {
+			this.lives--;
+			this.shouldModify = true;
+			return false;
+		}
 
-    return true;
-  }
+		return true;
+	}
 
-  step(state: State) {
-    if (this.shouldModify) {
-      for (const pos of state.board.allObstacles()) {
-        state.board.unsetObstacle(pos);
-      }
-      this.shouldModify = false;
-    }
-    return super.step(state);
-  }
+	step(state: State) {
+		if (this.shouldModify) {
+			for (const pos of state.board.allObstacles()) {
+				state.board.unsetObstacle(pos);
+			}
+			this.shouldModify = false;
+		}
+		return super.step(state);
+	}
 }

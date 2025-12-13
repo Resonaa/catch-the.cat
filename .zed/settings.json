@@ -1,0 +1,61 @@
+{
+	"hard_tabs": true,
+	"languages": {
+		"CSS": {
+			"code_actions_on_format": {
+				"source.action.useSortedProperties.biome": true,
+				"source.fixAll.biome": true
+			},
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"JSON": {
+			"code_actions_on_format": {
+				"source.action.useSortedKeys.biome": true,
+				"source.fixAll.biome": true
+			},
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"JSONC": {
+			"code_actions_on_format": {
+				"source.action.useSortedKeys.biome": true,
+				"source.fixAll.biome": true
+			},
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"TSX": {
+			"code_actions_on_format": {
+				"source.action.useSortedAttributes.biome": true,
+				"source.action.useSortedKeys.biome": true,
+				"source.action.useSortedProperties.biome": true,
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			},
+			"formatter": { "language_server": { "name": "biome" } }
+		},
+		"TypeScript": {
+			"code_actions_on_format": {
+				"source.action.useSortedKeys.biome": true,
+				"source.action.useSortedProperties.biome": true,
+				"source.fixAll.biome": true,
+				"source.organizeImports.biome": true
+			},
+			"formatter": { "language_server": { "name": "biome" } }
+		}
+	},
+	"lsp": {
+		"biome": {
+			"settings": {
+				"config_path": "./biome.json",
+				"require_config": true
+			}
+		},
+		"eslint": {
+			"enable_lsp_tasks": false,
+			"settings": {
+				"enable": false,
+				"enabled": false
+			}
+		}
+	},
+	"tab_size": 2
+}

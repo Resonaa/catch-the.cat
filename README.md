@@ -1,8 +1,8 @@
-# Elementalia
+# catch-the.cat
 
 ![logo](./logo.jpg)
 
-Next generation catch-the-cat game
+A game featuring a black cat inspired by cat figures in Catalan folk tales.
 
 ## Building
 
@@ -14,4 +14,3 @@ $ [npm/yarn/pnpm/bun] run build
 ## Acknowledgement
 
 - Adaped from [Chat Noir](https://www.gamedesign.jp/flash/chatnoir/chatnoir.html)
-- Inspired by [ganlvtech/phaser-catch-the-cat](https://github.com/ganlvtech/phaser-catch-the-cat)

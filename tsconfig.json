@@ -1,26 +1,28 @@
 {
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
+	"compilerOptions": {
+		"allowImportingTsExtensions": true,
+		"isolatedModules": true,
+		"lib": ["ES2020", "DOM", "DOM.Iterable"],
+		"module": "ESNext",
+		"moduleDetection": "force",
 
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
-    "noEmit": true,
+		/* Bundler mode */
+		"moduleResolution": "bundler",
+		"noEmit": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUncheckedSideEffectImports": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
 
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true,
+		"paths": { "@/*": ["./*"], "~/*": ["./src/*"] },
+		"skipLibCheck": true,
 
-    "types": ["vite/client"]
-  },
-  "include": ["src"]
+		/* Linting */
+		"strict": true,
+		"target": "ES2020",
+
+		"types": ["vite/client"],
+		"useDefineForClassFields": true
+	},
+	"include": ["src"]
 }
