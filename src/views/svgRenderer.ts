@@ -9,6 +9,7 @@ import type { State } from "../core/state";
 import { Dirs } from "../models/dir";
 import { Pos } from "../models/pos";
 import { Renderer } from "./renderer";
+import { ReplayRecorder } from "./replayRecorder";
 
 gsap.registerPlugin(TextPlugin);
 
@@ -20,8 +21,11 @@ export class SVGRenderer extends Renderer {
 	resetBtn = document.getElementById("reset") as HTMLDivElement;
 	difficultyBtn = document.getElementById("difficulty") as HTMLDivElement;
 	toggleCatBtn = document.getElementById("cat") as HTMLDivElement;
+	downloadBtn = document.getElementById("download") as HTMLDivElement;
 
 	tl = gsap.timeline({ paused: true });
+
+	recorder = new ReplayRecorder();
 
 	get circleElems() {
 		return document.querySelectorAll("circle");
@@ -59,6 +63,11 @@ export class SVGRenderer extends Renderer {
 		this.toggleCatBtn.addEventListener("pointerdown", e => {
 			e.preventDefault();
 			this.dispatch({ type: "toggleCatClick" });
+		});
+
+		this.downloadBtn.addEventListener("pointerdown", e => {
+			e.preventDefault();
+			this.downloadReplay();
 		});
 
 		if (import.meta.env.MODE === "production") {
@@ -304,6 +313,10 @@ export class SVGRenderer extends Renderer {
 		gsap.to(this.turnsElem, { autoAlpha: 0, duration: 0.2 });
 	}
 
+	private downloadReplay() {
+		this.recorder.finish();
+	}
+
 	render(state: State) {
 		// circles need re-generating
 		if (
@@ -314,7 +327,13 @@ export class SVGRenderer extends Renderer {
 			this.generateCircles(state);
 		}
 
-		state.turns !== 0 && this.updateTurns(state.turns);
+		if (state.turns === 0) {
+			this.recorder.reset();
+		} else {
+			this.recorder.captureFrame().then(() => {
+				this.updateTurns(state.turns.toString());
+			});
+		}
 
 		const newObstacle = this.updateCircles(state);
 
@@ -323,6 +342,7 @@ export class SVGRenderer extends Renderer {
 				// player has just won the game, we should update message and confetti
 				this.updateMessage(t("won"));
 				this.confetti();
+				this.recorder.captureFrame();
 				break;
 			}
 			case "lose": {
@@ -330,6 +350,7 @@ export class SVGRenderer extends Renderer {
 				const catNameKey = `cat-name.${state.cat.name}`;
 				this.updateMessage(`${t(catNameKey)}${t("escaped")}`);
 				this.animateCatEscape(state);
+				this.recorder.captureAfter(500);
 				break;
 			}
 			case "playing": {
