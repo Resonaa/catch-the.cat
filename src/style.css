@@ -60,6 +60,7 @@ circle.obstacle {
 	display: flex;
 	flex: 1;
 	flex-direction: row-reverse;
+	gap: 2rem;
 	text-align: right;
 }
 

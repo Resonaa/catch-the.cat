@@ -3,10 +3,11 @@ import {
 	faCat,
 	faChessBoard,
 	faCircleInfo,
+	faDownload,
 	faRotate
 } from "@fortawesome/free-solid-svg-icons";
 
 export function setupFa() {
-	library.add(faRotate, faCat, faChessBoard, faCircleInfo);
+	library.add(faRotate, faCat, faChessBoard, faCircleInfo, faDownload);
 	dom.i2svg();
 }
