@@ -314,7 +314,9 @@ export class SVGRenderer extends Renderer {
 	}
 
 	private downloadReplay() {
-		this.recorder.finish();
+		this.recorder.captureFrame(2000).then(() => {
+			this.recorder.finish();
+		});
 	}
 
 	render(state: State) {
@@ -342,7 +344,6 @@ export class SVGRenderer extends Renderer {
 				// player has just won the game, we should update message and confetti
 				this.updateMessage(t("won"));
 				this.confetti();
-				this.recorder.captureFrame();
 				break;
 			}
 			case "lose": {
@@ -350,7 +351,6 @@ export class SVGRenderer extends Renderer {
 				const catNameKey = `cat-name.${state.cat.name}`;
 				this.updateMessage(`${t(catNameKey)}${t("escaped")}`);
 				this.animateCatEscape(state);
-				this.recorder.captureAfter(500);
 				break;
 			}
 			case "playing": {

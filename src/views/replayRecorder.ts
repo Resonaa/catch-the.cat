@@ -8,72 +8,73 @@ export class ReplayRecorder {
 		this.frames = [];
 	}
 
-	async captureFrame() {
-		const serializer = new XMLSerializer();
-		const svgElement = document.querySelector("svg");
-		if (!svgElement) {
-			return;
-		}
+	captureFrame(delay = 400) {
+		return new Promise(resolve => {
+			const serializer = new XMLSerializer();
+			const svgElement = document.querySelector("svg");
+			if (!svgElement) {
+				resolve(false);
+				return;
+			}
 
-		const s = serializer.serializeToString(svgElement);
-		const svgString = s
-			.replace(/ class=""\/>/g, "/>")
-			.replace(/class="obstacle"\/>/g, 'fill="#003366"/>')
-			.replace(/data-coords="[\d\-,]*?"\/>/g, 'fill="#b3d9ff"/>');
+			const s = serializer.serializeToString(svgElement);
+			const svgString = s
+				.replace(/ class=""\/>/g, "/>")
+				.replace(/class="obstacle"\/>/g, 'fill="#003366"/>')
+				.replace(/data-coords="[\d\-,]*?"\/>/g, 'fill="#b3d9ff"/>');
 
-		const svgBlob = new Blob([svgString], {
-			type: "image/svg+xml;charset=utf-8"
-		});
-		const url = URL.createObjectURL(svgBlob);
-
-		const canvas = document.createElement("canvas");
-
-		const img = new Image();
-
-		const ctx = canvas.getContext("2d");
-		if (!ctx) {
-			return;
-		}
-
-		img.onload = async () => {
-			const r = 20;
-			canvas.width = svgElement.viewBox.baseVal.width * r;
-			canvas.height = svgElement.viewBox.baseVal.height * r;
-
-			ctx.fillStyle = "#ffffff";
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			ctx.drawImage(img, 0, 0);
-
-			const { data, width, height } = ctx.getImageData(
-				0,
-				0,
-				canvas.width,
-				canvas.height
-			);
-			const frame = this.frames.length;
-			const format = "rgb444";
-			const delay = 400;
-			const maxColors = 256;
-
-			const palette = quantize(data, maxColors, { format });
-			const index = applyPalette(data, palette, format);
-
-			const gif = GIFEncoder({ auto: false });
-			gif.writeFrame(index, width, height, {
-				delay,
-				first: frame === 0,
-				palette
+			const svgBlob = new Blob([svgString], {
+				type: "image/svg+xml;charset=utf-8"
 			});
+			const url = URL.createObjectURL(svgBlob);
 
-			this.frames.push(gif.bytesView());
+			const canvas = document.createElement("canvas");
 
-			URL.revokeObjectURL(url);
-		};
-		img.src = url;
-	}
+			const img = new Image();
 
-	captureAfter(ms: number) {
-		setTimeout(() => this.captureFrame(), ms);
+			const ctx = canvas.getContext("2d");
+			if (!ctx) {
+				resolve(false);
+				return;
+			}
+
+			img.onload = async () => {
+				const r = 20;
+				canvas.width = svgElement.viewBox.baseVal.width * r;
+				canvas.height = svgElement.viewBox.baseVal.height * r;
+
+				ctx.fillStyle = "#ffffff";
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				ctx.drawImage(img, 0, 0);
+
+				const { data, width, height } = ctx.getImageData(
+					0,
+					0,
+					canvas.width,
+					canvas.height
+				);
+				const frame = this.frames.length;
+				const format = "rgb444";
+				const maxColors = 256;
+
+				const palette = quantize(data, maxColors, { format });
+				const index = applyPalette(data, palette, format);
+
+				const gif = GIFEncoder({ auto: false });
+				gif.writeFrame(index, width, height, {
+					delay,
+					first: frame === 0,
+					palette
+				});
+
+				this.frames.push(gif.bytesView());
+
+				URL.revokeObjectURL(url);
+
+				resolve(true);
+			};
+			img.src = url;
+		});
 	}
 
 	finish() {
