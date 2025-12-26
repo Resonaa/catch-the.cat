@@ -38,9 +38,9 @@ export class State {
 	readonly board = new Board();
 	readonly catPos = new Pos();
 	readonly catDir: Dir = "bottom_left";
-	readonly turns = 0;
+	readonly turns: number = 0;
 	readonly status: "win" | "lose" | "playing" = "playing";
-	readonly catId = 0;
+	readonly catId: number = 0;
 
 	get cat() {
 		return cats[this.catId % cats.length];
